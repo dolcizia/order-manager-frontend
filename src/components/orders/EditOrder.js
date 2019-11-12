@@ -6,8 +6,8 @@ import OrderItems from './OrderItems';
 
 class OrderForm extends Component {
 	state = {
-		toggleCustomer: true,
-		toggleDelivery: true,
+		toggleCustomer: false,
+		toggleDelivery: false,
 		customers: [],
 		products: [],
 		customer: {},
@@ -20,10 +20,38 @@ class OrderForm extends Component {
 		},
 		orderItems: [],
 		itemToAdd: {},
-		orderTotal: 0
+		orderTotal: ''
 	};
 
 	componentDidMount = () => {
+		axios.get(`/api/orders/${this.props.match.params.id}`).then((res) => {
+			const { orderItems, customer, delivery, orderTotal } = res.data;
+			const { name, email, address, phone, _id } = customer;
+			const { street, city, state, zip } = address;
+
+			this.setState({
+				customer: {
+					_id,
+					name,
+					email,
+					phone,
+					street,
+					city,
+					state,
+					zip
+				},
+				delivery: {
+					delStreet: delivery.street,
+					delCity: delivery.city,
+					delState: delivery.state,
+					delZip: delivery.zip,
+					date: new Date(delivery.date)
+				},
+				orderItems,
+				orderTotal
+			});
+		});
+
 		// Get list of customers from database
 		axios.get('/api/customers').then((res) => {
 			if (res.data.length > 0) {
@@ -51,7 +79,7 @@ class OrderForm extends Component {
 		this.setState({
 			customer: {
 				name: newCustomer.value,
-				id: newCustomer.id,
+				_id: newCustomer.id,
 				email: newCustomer.getAttribute('email'),
 				phone: newCustomer.getAttribute('phone'),
 				street: newCustomer.getAttribute('street'),
@@ -161,13 +189,36 @@ class OrderForm extends Component {
 		});
 	};
 
-	createOrder = () => {
+	// -------- Order Item Logic -------- //
+	removeItem = (id, lineTotal) => {
+		const newTotal = this.state.orderTotal - lineTotal;
+		this.setState({
+			orderItems: this.state.orderItems.filter((item) => item._id !== id),
+			orderTotal: newTotal
+		});
+	};
+
+	updateItem = (id, updatedItem) => {
+		const updatedItems = this.state.orderItems.map((item) => {
+			if (item.id === id) {
+				return { ...item, item: updatedItem };
+			}
+			return item;
+		});
+
+		this.setState({
+			orderItems: updatedItems
+		});
+	};
+
+	// -------- Order Submit Logic -------- //
+	updateOrder = () => {
 		if (this.state.orderItems) {
 			const { customer, delivery, orderItems, orderTotal } = this.state;
 
 			const order = {
 				customer: {
-					_id: customer.id
+					_id: customer._id
 				},
 				delivery: {
 					street: delivery.delStreet,
@@ -180,31 +231,12 @@ class OrderForm extends Component {
 				orderTotal
 			};
 
+			console.log(order);
+
 			axios
-				.post('/api/orders', order)
+				.post(`/api/orders/${this.props.match.params.id}`, order)
 				.then(() => this.props.history.push('/orders'));
 		}
-	};
-
-	removeItem = (id, lineTotal) => {
-		const newTotal = this.state.orderTotal - lineTotal;
-		this.setState({
-			orderItems: this.state.orderItems.filter((item) => item._id !== id),
-			orderTotal: newTotal
-		});
-	};
-
-	updateItem = (id, updatedItem) => {
-		const updatedItems = this.state.orderItems.map((item) => {
-			if (item.id === id) {
-				return { ...item, task: updatedItem };
-			}
-			return item;
-		});
-
-		this.setState({
-			orderItems: updatedItems
-		});
 	};
 
 	render() {
@@ -321,9 +353,9 @@ class OrderForm extends Component {
 				</div>
 				<button
 					className="btn btn-success btn-lg float-right mt-3"
-					onClick={this.createOrder}
+					onClick={this.updateOrder}
 				>
-					Create Order
+					Update Order
 				</button>
 			</div>
 		);

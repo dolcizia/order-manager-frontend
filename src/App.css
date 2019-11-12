@@ -1,3 +1,26 @@
+.NavBar svg {
+	display: block;
+	margin: auto;
+	font-size: 2.5em;
+}
 .picker {
 	width: 200px !important;
+}
+.modal-content {
+	border-radius: 0 !important;
+}
+.modal-content .close,
+.modal-content .close:hover {
+	color: #fff;
+}
+td svg {
+	color: #ccc;
+}
+td svg:hover {
+	color: rgb(190, 190, 190);
+	cursor: pointer;
+}
+.table-striped svg,
+.table-striped svg:hover {
+	color: #fff;
 }

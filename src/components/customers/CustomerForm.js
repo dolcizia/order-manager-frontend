@@ -94,14 +94,14 @@ export default class CustomerForm extends Component {
 			phone
 		};
 
-		axios.post('/api/customers/', customer).then((res) => console.log(res.data));
-
-		window.location = '/customers';
+		axios
+			.post('/api/customers/', customer)
+			.then(() => this.props.history.push('/customers'));
 	};
 
 	render() {
 		return (
-			<div>
+			<div className="container m-auto">
 				<h3>Add Customer</h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
@@ -109,7 +109,7 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.onChange}
 							name="name"
 						/>
@@ -120,7 +120,7 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.onChange}
 							name="email"
 						/>
@@ -131,7 +131,7 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.handleChange('address')}
 							name="street"
 						/>
@@ -140,7 +140,7 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.handleChange('address')}
 							name="city"
 						/>
@@ -149,7 +149,7 @@ export default class CustomerForm extends Component {
 						<select
 							name="state"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.handleChange('address')}
 						>
 							{this.state.states.map((state) => (
@@ -163,7 +163,7 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.handleChange('address')}
 							name="zip"
 						/>
@@ -174,14 +174,18 @@ export default class CustomerForm extends Component {
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.onChange}
 							name="phone"
 						/>
 					</div>
 
 					<div className="form-group">
-						<input type="submit" value="Save" className="btn btn-success" />
+						<input
+							type="submit"
+							value="Save"
+							className="btn btn-success btn-sm"
+						/>
 					</div>
 				</form>
 			</div>

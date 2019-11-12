@@ -3,10 +3,10 @@ import axios from 'axios';
 
 const categories = [ 'Lumber', 'Drywall', 'Hardware', 'Sheet Goods' ];
 
-export default class ProductForm extends Component {
+class EditProduct extends Component {
 	state = {
 		name: '',
-		category: categories[0],
+		category: '',
 		price: ''
 	};
 
@@ -27,22 +27,22 @@ export default class ProductForm extends Component {
 			price
 		};
 
-		axios.post('/api/products/', product).then((res) => console.log(res.data));
-
-		window.location = '/';
+		axios
+			.post('/api/products/', product)
+			.then(() => this.props.history.push('/products'));
 	};
 
 	render() {
 		return (
-			<div>
+			<div className="container m-auto">
 				<h3>Add Product</h3>
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
-						<label>Name: </label>
+						<label>Product Name: </label>
 						<input
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={this.state.name}
 							onChange={this.onChange}
 							name="name"
@@ -54,8 +54,9 @@ export default class ProductForm extends Component {
 						<select
 							name="category"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							onChange={this.onChange}
+							value={this.state.category}
 						>
 							{categories.map((cat) => (
 								<option key={cat} value={cat}>
@@ -68,20 +69,27 @@ export default class ProductForm extends Component {
 					<div className="form-group">
 						<label>Price: $</label>
 						<input
+							placeholder="0"
 							type="text"
-							placeholder="0.00"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
+							value={this.state.price}
 							onChange={this.onChange}
 							name="price"
 						/>
 					</div>
 
 					<div className="form-group">
-						<input type="submit" value="Save" className="btn btn-success" />
+						<input
+							type="submit"
+							value="Save"
+							className="btn btn-success btn-sm"
+						/>
 					</div>
 				</form>
 			</div>
 		);
 	}
 }
+
+export default EditProduct;

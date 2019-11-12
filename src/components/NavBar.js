@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { Collapse, Navbar, NavbarToggler, Nav, NavItem, NavLink } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileInvoice, faUsers, faBox, faHome } from '@fortawesome/free-solid-svg-icons';
+import { Collapse, Navbar, NavbarToggler, Nav, NavItem } from 'reactstrap';
 
 export default class NavBar extends Component {
 	constructor(props) {
@@ -23,23 +25,30 @@ export default class NavBar extends Component {
 				expand="md"
 				className="fixed-top NavBar bg-dark navbar-dark py-0"
 			>
-				<Link to="/" className="navbar-brand">
-					Home
-				</Link>
+				<Nav navbar>
+					<NavItem>
+						<Link to="/" className="nav-link">
+							<FontAwesomeIcon icon={faHome} /> Home
+						</Link>
+					</NavItem>
+				</Nav>
+
 				<NavbarToggler onClick={this.toggle} />
 				<Collapse isOpen={this.state.isOpen} navbar>
 					<Nav className="ml-auto" navbar>
 						<NavItem className="link mr-2">
 							<Link to="/orders" className="nav-link">
-								Orders
+								<FontAwesomeIcon icon={faFileInvoice} /> Orders
 							</Link>
 						</NavItem>
 						<NavItem className="link mr-2">
-							<NavLink href="/Products">Products</NavLink>
+							<Link to="/products" className="nav-link">
+								<FontAwesomeIcon icon={faBox} /> Products
+							</Link>
 						</NavItem>
 						<NavItem className="link mr-2">
 							<Link to="/customers" className="nav-link">
-								Customers
+								<FontAwesomeIcon icon={faUsers} /> Customers
 							</Link>
 						</NavItem>
 					</Nav>

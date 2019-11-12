@@ -1,29 +1,30 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
-import EditProductForm from './EditProductForm';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 
 const Product = (props) => {
-	const { name, category, price } = props.product;
-	const [ modal, setModal ] = useState(false);
-
-	const toggle = () => setModal(!modal);
+	const { name, category, _id } = props.product;
+	const price = parseFloat(props.product.price).toFixed(2);
 
 	return (
 		<tr>
-			<td>{category}</td>
-			<td>{name}</td>
-			<td>{price}</td>
-			<td>
-				<button onClick={toggle} className="btn btn-primary">
-					Edit
+			<td className="align-middle">{category}</td>
+			<td className="align-middle">{name}</td>
+			<td className="align-middle">{price}</td>
+			<td className="align-middle text-right">
+				<Link to={`/products/${_id}`} className="btn btn-primary btn-sm">
+					<FontAwesomeIcon icon={faPen} />
+				</Link>{' '}
+				<button
+					className="btn btn-danger btn-sm"
+					onClick={() => {
+						props.delete(props.product._id);
+					}}
+				>
+					<FontAwesomeIcon icon={faTimes} />
 				</button>
-				<Modal isOpen={modal} toggle={toggle} product={props.product}>
-					<ModalHeader toggle={toggle}>{`Edit ${name}`}</ModalHeader>
-					<ModalBody>
-						<EditProductForm product={props} />
-					</ModalBody>
-				</Modal>
 			</td>
 		</tr>
 	);
@@ -45,14 +46,38 @@ export default class ProductList extends Component {
 
 	listProducts = () => {
 		return this.state.products.map((product) => {
-			return <Product key={product._id} product={product} id={product._id} />;
+			return (
+				<Product
+					key={product._id}
+					product={product}
+					id={product._id}
+					delete={this.delete}
+				/>
+			);
+		});
+	};
+
+	delete = (id) => {
+		axios.delete(`/api/products/${id}`).then((res) => console.log(res.data));
+
+		this.setState({
+			products: this.state.products.filter((product) => product._id !== id)
 		});
 	};
 
 	render() {
 		return (
 			<div className="container">
-				<h1>Products</h1>
+				<div>
+					<h1 className="d-inline-block">Products</h1>
+					<Link
+						to="/products/new"
+						className="btn btn-primary btn-sm align-text-bottom ml-3"
+					>
+						Add New
+					</Link>
+				</div>
+
 				<table className="table table-striped">
 					<thead className="thead-dark">
 						<tr>

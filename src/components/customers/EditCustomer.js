@@ -55,7 +55,7 @@ const stateCodes = [
 	'WY'
 ];
 
-export default class CustomerForm extends Component {
+export default class EditCustomer extends Component {
 	state = {
 		name: '',
 		email: '',
@@ -70,10 +70,8 @@ export default class CustomerForm extends Component {
 	};
 
 	componentDidMount = () => {
-		const { id } = this.props.customer;
-
 		axios
-			.get(`/api/customers/${id}`)
+			.get(`/api/customers/${this.props.match.params.id}`)
 			.then((res) => {
 				const { name, email, address, phone } = res.data;
 				this.setState({
@@ -116,36 +114,36 @@ export default class CustomerForm extends Component {
 			phone
 		};
 
-		const { id } = this.props.customer;
-		axios.post(`/api/customers/${id}`, customer).then((res) => console.log(res.data));
-
-		window.location = '/';
+		axios
+			.post(`/api/customers/${this.props.match.params.id}`, customer)
+			.then(() => this.props.history.push('/customers'));
 	};
 
 	render() {
 		const { street, city, state, zip } = this.state.address;
 		return (
-			<div>
-				<h3>Add Customer</h3>
+			<div className="container m-auto">
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Name: </label>
 						<input
+							placeholder="Name"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={this.state.name}
 							onChange={this.onChange}
 							name="name"
 						/>
 					</div>
 
-					<div className="form-group">
+					<div className="form-group ">
 						<label>Email: </label>
 						<input
+							placeholder="Email"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={this.state.email}
 							onChange={this.onChange}
 							name="email"
@@ -155,9 +153,10 @@ export default class CustomerForm extends Component {
 					<div className="form-group">
 						<label>Street: </label>
 						<input
+							placeholder="Address"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={street}
 							onChange={this.handleChange('address')}
 							name="street"
@@ -165,28 +164,20 @@ export default class CustomerForm extends Component {
 
 						<label>City: </label>
 						<input
+							placeholder="City"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={city}
 							onChange={this.handleChange('address')}
 							name="city"
 						/>
 
-						{/* <label>State: </label>
-						<input
-							type="text"
-							required
-							className="form-control"
-							value={state}
-							onChange={this.handleChange('address')}
-							name="state"
-						/> */}
 						<label>State: </label>
 						<select
 							name="state"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={state}
 							onChange={this.handleChange('address')}
 						>
@@ -197,11 +188,12 @@ export default class CustomerForm extends Component {
 							))}
 						</select>
 
-						<label>Zip: </label>
+						<label>Zip Code: </label>
 						<input
+							placeholder="Zip Code"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={zip}
 							onChange={this.handleChange('address')}
 							name="zip"
@@ -211,9 +203,10 @@ export default class CustomerForm extends Component {
 					<div className="form-group">
 						<label>Phone: </label>
 						<input
+							placeholder="Phone"
 							type="text"
 							required
-							className="form-control"
+							className="form-control form-control-sm"
 							value={this.state.phone}
 							onChange={this.onChange}
 							name="phone"
@@ -221,7 +214,11 @@ export default class CustomerForm extends Component {
 					</div>
 
 					<div className="form-group">
-						<input type="submit" value="Save" className="btn btn-success" />
+						<input
+							type="submit"
+							value="Save"
+							className="btn btn-success btn-sm"
+						/>
 					</div>
 				</form>
 			</div>

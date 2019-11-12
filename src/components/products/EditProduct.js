@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const categories = [ 'Lumber', 'Drywall', 'Hardware', 'Sheet Goods' ];
 
-export default class ProductForm extends Component {
+class EditProduct extends Component {
 	state = {
 		name: '',
 		category: '',
@@ -11,11 +11,11 @@ export default class ProductForm extends Component {
 	};
 
 	componentDidMount = () => {
-		const { id } = this.props.product;
 		axios
-			.get(`/api/products/${id}`)
+			.get(`/api/products/${this.props.match.params.id}`)
 			.then((res) => {
-				const { name, category, price } = res.data;
+				const { name, category } = res.data;
+				const price = parseFloat(res.data.price).toFixed(2);
 				this.setState({
 					name,
 					category,
@@ -42,15 +42,14 @@ export default class ProductForm extends Component {
 			price
 		};
 
-		const { id } = this.props.product;
-		axios.post(`/api/products/${id}`, product).then((res) => console.log(res.data));
-
-		window.location = '/';
+		axios
+			.post(`/api/products/${this.props.match.params.id}`, product)
+			.then(() => this.props.history.push('/products'));
 	};
 
 	render() {
 		return (
-			<div>
+			<div className="container m-auto">
 				<form onSubmit={this.onSubmit}>
 					<div className="form-group">
 						<label>Product Name: </label>
@@ -94,10 +93,16 @@ export default class ProductForm extends Component {
 					</div>
 
 					<div className="form-group">
-						<input type="submit" value="Save" className="btn btn-success" />
+						<input
+							type="submit"
+							value="Save"
+							className="btn btn-success btn-sm"
+						/>
 					</div>
 				</form>
 			</div>
 		);
 	}
 }
+
+export default EditProduct;
