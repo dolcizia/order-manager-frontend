@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -18,7 +19,7 @@ const Customer = (props) => {
 			</td>
 			<td className="align-middle">{phone}</td>
 			<td className="align-middle text-right">
-				<Link to={`/customers/${_id}`} className="btn btn-primary btn-sm">
+				<Link to={`/customers/${_id}`} className="btn btn-info btn-sm">
 					<FontAwesomeIcon icon={faPen} />
 				</Link>{' '}
 				<button
@@ -76,7 +77,7 @@ export default class CustomerList extends Component {
 					<h1 className="d-inline-block">Customers</h1>
 					<Link
 						to="/customers/new"
-						className="btn btn-primary btn-sm align-text-bottom ml-3"
+						className="btn btn-info btn-sm align-text-bottom ml-3"
 					>
 						Add New
 					</Link>
@@ -86,10 +87,10 @@ export default class CustomerList extends Component {
 					<thead className="thead-dark">
 						<tr>
 							<th>Name</th>
-							<th>Email</th>
-							<th>Address</th>
-							<th>Phone</th>
-							<th />
+							<th style={{ width: '30.75%' }}>Email</th>
+							<th style={{ width: '22.5%' }}>Address</th>
+							<th style={{ width: '14%' }}>Phone</th>
+							<th style={{ width: '8%' }} />
 						</tr>
 					</thead>
 					<tbody>{this.listCustomers()}</tbody>

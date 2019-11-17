@@ -52,49 +52,91 @@ export default class OrderItems extends Component {
 
 		return (
 			<div className="orderItems mt-3 border border-dark col-12 p-0">
-				<div className="addedItems">
-					<table className="table table-bordered table-sm m-0">
-						<thead className="thead-dark">
-							<tr>
-								<th className="border-dark p-2">Item</th>
-								<th className="border-dark p-2 text-center">Price</th>
-								<th className="border-dark p-2 text-center">Quantity</th>
-								<th className="border-dark p-2 text-center">Total</th>
-							</tr>
-						</thead>
-						<tbody>{items}</tbody>
-					</table>
-				</div>
-				<div className="productSelect d-flex justify-content-between p-2">
-					<div className="d-flex">
-						<ProductSelect
-							products={this.props.products}
-							onProductChange={this.onProductChange}
-							current={this.props.current.name}
-						/>
-						<div className="mr-2">
-							<input
-								placeholder="Qty"
-								type="number"
-								className="form-control form-control-sm"
-								name="quantity"
-								value={this.state.quantity}
-								onChange={this.handleChange}
-							/>
-						</div>
-						<div className="mr-2">
-							<button
-								className="btn btn-success btn-sm"
-								onClick={this.handleClick}
-							>
-								Add
-							</button>
+				{this.props.loading ? (
+					<div className="addedItems">
+						<table className="table table-bordered table-sm m-0">
+							<thead className="thead-dark">
+								<tr>
+									<th
+										className="border-dark p-2"
+										style={{ width: '60%' }}
+									>
+										Item
+									</th>
+									<th className="border-dark p-2 text-center">Price</th>
+									<th className="border-dark p-2 text-center">
+										Quantity
+									</th>
+									<th className="border-dark p-2 text-center">Total</th>
+								</tr>
+							</thead>
+						</table>
+						<div
+							className="spinner-border text-success d-flex mx-auto my-1"
+							role="status"
+						>
+							<span className="sr-only">Loading...</span>
 						</div>
 					</div>
+				) : (
 					<div>
-						<h4 className="float-right text-success">{total}</h4>
+						<div className="addedItems">
+							<table className="table table-bordered table-sm m-0">
+								<thead className="thead-dark">
+									<tr>
+										<th
+											className="border-dark p-2"
+											style={{ width: '60%' }}
+										>
+											Item
+										</th>
+										<th className="border-dark p-2 text-center">
+											Price
+										</th>
+										<th className="border-dark p-2 text-center">
+											Quantity
+										</th>
+										<th className="border-dark p-2 text-center">
+											Total
+										</th>
+									</tr>
+								</thead>
+								<tbody>{items}</tbody>
+							</table>
+						</div>
+						<div className="productSelect d-flex justify-content-between p-2">
+							<div className="d-flex">
+								<ProductSelect
+									products={this.props.products}
+									onProductChange={this.onProductChange}
+									current={this.props.current.name}
+								/>
+								<div className="mr-2">
+									<input
+										placeholder="Qty"
+										type="number"
+										className="form-control form-control-sm"
+										name="quantity"
+										value={this.state.quantity}
+										onChange={this.handleChange}
+									/>
+								</div>
+								<div className="mr-2">
+									<button
+										className="btn btn-success btn-sm"
+										onClick={this.handleClick}
+									>
+										Add
+									</button>
+								</div>
+							</div>
+
+							<div>
+								<h4 className="float-right text-success">{total}</h4>
+							</div>
+						</div>
 					</div>
-				</div>
+				)}
 			</div>
 		);
 	}

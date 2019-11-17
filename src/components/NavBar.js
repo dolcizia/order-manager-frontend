@@ -28,7 +28,7 @@ export default class NavBar extends Component {
 				<Nav navbar>
 					<NavItem>
 						<Link to="/" className="nav-link">
-							<FontAwesomeIcon icon={faHome} /> Home
+							<FontAwesomeIcon icon={faHome} className="text-info" /> Home
 						</Link>
 					</NavItem>
 				</Nav>
@@ -38,17 +38,29 @@ export default class NavBar extends Component {
 					<Nav className="ml-auto" navbar>
 						<NavItem className="link mr-2">
 							<Link to="/orders" className="nav-link">
-								<FontAwesomeIcon icon={faFileInvoice} /> Orders
+								<FontAwesomeIcon
+									icon={faFileInvoice}
+									className="text-info"
+								/>{' '}
+								Orders
 							</Link>
 						</NavItem>
 						<NavItem className="link mr-2">
 							<Link to="/products" className="nav-link">
-								<FontAwesomeIcon icon={faBox} /> Products
+								<FontAwesomeIcon
+									icon={faBox}
+									className="text-info"
+								/>{' '}
+								Products
 							</Link>
 						</NavItem>
 						<NavItem className="link mr-2">
 							<Link to="/customers" className="nav-link">
-								<FontAwesomeIcon icon={faUsers} /> Customers
+								<FontAwesomeIcon
+									icon={faUsers}
+									className="text-info"
+								/>{' '}
+								Customers
 							</Link>
 						</NavItem>
 					</Nav>

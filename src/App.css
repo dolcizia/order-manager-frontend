@@ -1,7 +1,31 @@
-.NavBar svg {
-	display: block;
-	margin: auto;
-	font-size: 2.5em;
+.btn,
+.form-control,
+.card,
+.card-body {
+	border-radius: 0 !important;
+}
+select {
+	-webkit-appearance: none;
+	-webkit-border-radius: 0px;
+	background: url("/sort-solid.svg");
+	background-position: right 5px bottom 50%;
+	background-repeat: no-repeat;
+	background-size: 10px;
+	border-radius: 0px;
+}
+.buttons svg {
+	font-size: 5em;
+	margin-right: 16px;
+}
+.buttons h3 {
+	font-size: 2em;
+}
+.buttons .shadow:hover {
+	opacity: .9;
+	box-shadow: 0 1.5rem 1.5rem rgba(0, 0, 0, .15) !important;
+}
+.buttons a:hover {
+	text-decoration: none;
 }
 .picker {
 	width: 200px !important;

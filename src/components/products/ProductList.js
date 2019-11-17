@@ -10,11 +10,11 @@ const Product = (props) => {
 
 	return (
 		<tr>
-			<td className="align-middle">{category}</td>
-			<td className="align-middle">{name}</td>
-			<td className="align-middle">{price}</td>
-			<td className="align-middle text-right">
-				<Link to={`/products/${_id}`} className="btn btn-primary btn-sm">
+			<td>{category}</td>
+			<td>{name}</td>
+			<td>{price}</td>
+			<td>
+				<Link to={`/products/${_id}`} className="btn btn-info btn-sm">
 					<FontAwesomeIcon icon={faPen} />
 				</Link>{' '}
 				<button
@@ -72,7 +72,7 @@ export default class ProductList extends Component {
 					<h1 className="d-inline-block">Products</h1>
 					<Link
 						to="/products/new"
-						className="btn btn-primary btn-sm align-text-bottom ml-3"
+						className="btn btn-info btn-sm align-text-bottom ml-3"
 					>
 						Add New
 					</Link>
@@ -82,9 +82,9 @@ export default class ProductList extends Component {
 					<thead className="thead-dark">
 						<tr>
 							<th>Category</th>
-							<th>Item</th>
-							<th>Price</th>
-							<th />
+							<th style={{ width: '53%' }}>Item</th>
+							<th style={{ width: '15%' }}>Price</th>
+							<th style={{ width: '8%' }} />
 						</tr>
 					</thead>
 					<tbody>{this.listProducts()}</tbody>

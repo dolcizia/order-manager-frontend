@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import NavBar from './components/NavBar';
+import Home from './components/Home';
 import OrderList from './components/orders/OrderList';
 import OrderForm from './components/orders/OrderForm';
 import EditOrder from './components/orders/EditOrder';
@@ -18,6 +19,8 @@ function App() {
 		<div className="App container-fluid mt-5 pt-5">
 			<NavBar />
 			<Switch>
+				<Route exact path="/" component={Home} />
+
 				<Route exact path="/orders/" component={OrderList} />
 				<Route exact path="/orders/new" component={OrderForm} />
 				<Route exact path="/orders/:id" component={EditOrder} />

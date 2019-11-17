@@ -20,7 +20,7 @@ const Order = (props) => {
 			</td>
 			<td className="align-middle">{delivery.date.substring(0, 10)}</td>
 			<td className="align-middle text-right">
-				<Link to={`/orders/${_id}`} className="btn btn-primary btn-sm">
+				<Link to={`/orders/${_id}`} className="btn btn-info btn-sm">
 					<FontAwesomeIcon icon={faPen} />
 				</Link>{' '}
 				<button
@@ -78,7 +78,7 @@ class OrderList extends Component {
 					<h1 className="d-inline-block">Orders</h1>
 					<Link
 						to="/orders/new"
-						className="btn btn-primary btn-sm align-text-bottom ml-3"
+						className="btn btn-info btn-sm align-text-bottom ml-3"
 					>
 						Add New
 					</Link>

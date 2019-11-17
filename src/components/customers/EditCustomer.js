@@ -122,10 +122,10 @@ export default class EditCustomer extends Component {
 	render() {
 		const { street, city, state, zip } = this.state.address;
 		return (
-			<div className="container m-auto">
-				<form onSubmit={this.onSubmit}>
+			<div className="container m-auto border border-dark p-0 w-50">
+				<h3 className="bg-dark text-light p-2">Edit Customer</h3>
+				<form onSubmit={this.onSubmit} className="p-2">
 					<div className="form-group">
-						<label>Name: </label>
 						<input
 							placeholder="Name"
 							type="text"
@@ -137,21 +137,32 @@ export default class EditCustomer extends Component {
 						/>
 					</div>
 
-					<div className="form-group ">
-						<label>Email: </label>
-						<input
-							placeholder="Email"
-							type="text"
-							required
-							className="form-control form-control-sm"
-							value={this.state.email}
-							onChange={this.onChange}
-							name="email"
-						/>
+					<div className="form-row">
+						<div className="form-group col-md-6">
+							<input
+								placeholder="Email"
+								type="text"
+								required
+								className="form-control form-control-sm"
+								value={this.state.email}
+								onChange={this.onChange}
+								name="email"
+							/>
+						</div>
+						<div className="form-group col-md-6">
+							<input
+								placeholder="Phone"
+								type="text"
+								required
+								className="form-control form-control-sm"
+								value={this.state.phone}
+								onChange={this.onChange}
+								name="phone"
+							/>
+						</div>
 					</div>
 
 					<div className="form-group">
-						<label>Street: </label>
 						<input
 							placeholder="Address"
 							type="text"
@@ -161,59 +172,48 @@ export default class EditCustomer extends Component {
 							onChange={this.handleChange('address')}
 							name="street"
 						/>
-
-						<label>City: </label>
-						<input
-							placeholder="City"
-							type="text"
-							required
-							className="form-control form-control-sm"
-							value={city}
-							onChange={this.handleChange('address')}
-							name="city"
-						/>
-
-						<label>State: </label>
-						<select
-							name="state"
-							required
-							className="form-control form-control-sm"
-							value={state}
-							onChange={this.handleChange('address')}
-						>
-							{this.state.states.map((state) => (
-								<option key={state} value={state}>
-									{state}
-								</option>
-							))}
-						</select>
-
-						<label>Zip Code: </label>
-						<input
-							placeholder="Zip Code"
-							type="text"
-							required
-							className="form-control form-control-sm"
-							value={zip}
-							onChange={this.handleChange('address')}
-							name="zip"
-						/>
+					</div>
+					<div className="form-row">
+						<div className="form-group col-md-6">
+							<input
+								placeholder="City"
+								type="text"
+								required
+								className="form-control form-control-sm"
+								value={city}
+								onChange={this.handleChange('address')}
+								name="city"
+							/>
+						</div>
+						<div className="form-group col-md-2">
+							<select
+								name="state"
+								required
+								className="form-control form-control-sm"
+								value={state}
+								onChange={this.handleChange('address')}
+							>
+								{this.state.states.map((state) => (
+									<option key={state} value={state}>
+										{state}
+									</option>
+								))}
+							</select>
+						</div>
+						<div className="form-group col-md-4">
+							<input
+								placeholder="Zip Code"
+								type="text"
+								required
+								className="form-control form-control-sm"
+								value={zip}
+								onChange={this.handleChange('address')}
+								name="zip"
+							/>
+						</div>
 					</div>
 
-					<div className="form-group">
-						<label>Phone: </label>
-						<input
-							placeholder="Phone"
-							type="text"
-							required
-							className="form-control form-control-sm"
-							value={this.state.phone}
-							onChange={this.onChange}
-							name="phone"
-						/>
-					</div>
-
-					<div className="form-group">
+					<div className="form-group m-0">
 						<input
 							type="submit"
 							value="Save"

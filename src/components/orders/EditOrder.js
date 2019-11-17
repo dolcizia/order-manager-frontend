@@ -20,7 +20,8 @@ class OrderForm extends Component {
 		},
 		orderItems: [],
 		itemToAdd: {},
-		orderTotal: ''
+		orderTotal: '',
+		isLoading: true
 	};
 
 	componentDidMount = () => {
@@ -71,6 +72,11 @@ class OrderForm extends Component {
 				});
 			}
 		});
+		setTimeout(() => {
+			this.setState({
+				isLoading: false
+			});
+		}, 2000);
 	};
 
 	// -------- Customer Logic -------- //
@@ -273,7 +279,7 @@ class OrderForm extends Component {
 
 		return (
 			<div className="container orderForm">
-				<h1>Add Order</h1>
+				<h1>Edit Order</h1>
 				<div className="row m-0" style={{ height: 200 }}>
 					{this.state.toggleCustomer ? (
 						<div className="customerInfo col-md-4 border border-dark p-0">
@@ -290,7 +296,18 @@ class OrderForm extends Component {
 					) : (
 						<div className="customerInfo col-md-4 border border-dark p-0">
 							<h3 className="bg-dark text-light p-2">Customer</h3>
-							<div className="billingAddress px-2">{billingAddress}</div>
+							{!this.state.isLoading ? (
+								<div className="billingAddress px-2">
+									{billingAddress}
+								</div>
+							) : (
+								<div
+									className="spinner-border text-success d-flex m-auto"
+									role="status"
+								>
+									<span className="sr-only">Loading...</span>
+								</div>
+							)}
 						</div>
 					)}
 					{this.state.toggleDelivery ? (
@@ -313,27 +330,36 @@ class OrderForm extends Component {
 								Delivery Information
 							</h3>
 							<div className="px-2">
-								<div className="d-flex position-relative">
-									<div className="deliveryAddress mr-5">
-										{deliveryAddress}
-									</div>
-									<div className="deliveryDate">
-										<h5>Scheduled Date</h5>
-										<p
-											className="display-4 text-success font-weight-bold"
-											style={{ lineHeight: 0.8 }}
+								{!this.state.isLoading ? (
+									<div className="d-flex position-relative">
+										<div className="deliveryAddress mr-5">
+											{deliveryAddress}
+										</div>
+										<div className="deliveryDate">
+											<h5>Scheduled Date</h5>
+											<p
+												className="display-4 text-success font-weight-bold"
+												style={{ lineHeight: 0.8 }}
+											>
+												{date.toString().substring(0, 10)}
+											</p>
+										</div>
+										<button
+											className="btn btn-outline-secondary btn-sm position-absolute"
+											onClick={this.toggleDeliveryForm}
+											style={{ top: 0, right: 0 }}
 										>
-											{date.toString().substring(0, 10)}
-										</p>
+											Edit
+										</button>
 									</div>
-									<button
-										className="btn btn-outline-secondary btn-sm position-absolute"
-										onClick={this.toggleDeliveryForm}
-										style={{ top: 0, right: 0 }}
+								) : (
+									<div
+										className="spinner-border text-success d-flex m-auto"
+										role="status"
 									>
-										Edit
-									</button>
-								</div>
+										<span className="sr-only">Loading...</span>
+									</div>
+								)}
 							</div>
 						</div>
 					)}
@@ -349,6 +375,7 @@ class OrderForm extends Component {
 						orderItems={this.state.orderItems}
 						grabQty={this.grabQty}
 						total={this.state.orderTotal}
+						loading={this.state.isLoading}
 					/>
 				</div>
 				<button
