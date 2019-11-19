@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ProductSelect from '../products/ProductSelect';
 import Item from './Item';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 export default class OrderItems extends Component {
 	state = {
@@ -26,9 +27,14 @@ export default class OrderItems extends Component {
 		if (this.state.product !== '' && this.state.quantity !== '') {
 			this.props.addItem();
 			this.setState({
-				quantity: ''
+				quantity: '',
+				product: ''
 			});
 		}
+	};
+
+	toggleOrderItem = (id) => {
+		this.props.toggleOrderItem(id);
 	};
 
 	removeItem = (id, lineTotal) => {
@@ -44,6 +50,11 @@ export default class OrderItems extends Component {
 					key={orderItem.item._id}
 					allProducts={this.props.products}
 					remove={this.removeItem}
+					update={this.props.updateItem}
+					onProductChange={this.onProductChange}
+					onQtyChange={this.handleChange}
+					current={this.props.current}
+					cancelItemEdit={this.props.cancelItemEdit}
 				/>
 			);
 		});
@@ -90,13 +101,22 @@ export default class OrderItems extends Component {
 										>
 											Item
 										</th>
-										<th className="border-dark p-2 text-center">
+										<th
+											className="border-dark p-2 text-center"
+											style={{ width: '13.33%' }}
+										>
 											Price
 										</th>
-										<th className="border-dark p-2 text-center">
+										<th
+											className="border-dark p-2 text-center"
+											style={{ width: '13.33%' }}
+										>
 											Quantity
 										</th>
-										<th className="border-dark p-2 text-center">
+										<th
+											className="border-dark p-2 text-center"
+											style={{ width: '13.33%' }}
+										>
 											Total
 										</th>
 									</tr>
@@ -109,7 +129,7 @@ export default class OrderItems extends Component {
 								<ProductSelect
 									products={this.props.products}
 									onProductChange={this.onProductChange}
-									current={this.props.current.name}
+									current={this.props.current}
 								/>
 								<div className="mr-2">
 									<input
@@ -117,6 +137,7 @@ export default class OrderItems extends Component {
 										type="number"
 										className="form-control form-control-sm"
 										name="quantity"
+										min="1"
 										value={this.state.quantity}
 										onChange={this.handleChange}
 									/>

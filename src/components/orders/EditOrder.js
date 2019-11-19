@@ -8,6 +8,7 @@ class OrderForm extends Component {
 	state = {
 		toggleCustomer: false,
 		toggleDelivery: false,
+		toggleOrderItem: false,
 		customers: [],
 		products: [],
 		customer: {},
@@ -187,11 +188,12 @@ class OrderForm extends Component {
 			itemToAdd: {
 				...this.state.itemToAdd,
 				item: '',
-				name: '',
+				name: 'blank',
 				price: '',
 				quantity: ''
 			},
-			orderTotal
+			orderTotal,
+			products: this.state.products.filter((product) => product._id !== item)
 		});
 	};
 
@@ -204,16 +206,29 @@ class OrderForm extends Component {
 		});
 	};
 
-	updateItem = (id, updatedItem) => {
+	updateItem = (itemToEdit, prevTotal) => {
+		const { orderItem, id, name, price, quantity, lineTotal } = itemToEdit;
+		const newTotal = this.state.orderTotal - prevTotal + lineTotal;
 		const updatedItems = this.state.orderItems.map((item) => {
-			if (item.id === id) {
-				return { ...item, item: updatedItem };
+			if (item._id === orderItem) {
+				return {
+					...item,
+					_id: id,
+					item: {
+						_id: id,
+						name,
+						price
+					},
+					quantity,
+					lineTotal
+				};
 			}
 			return item;
 		});
 
 		this.setState({
-			orderItems: updatedItems
+			orderItems: updatedItems,
+			orderTotal: newTotal
 		});
 	};
 
@@ -236,8 +251,6 @@ class OrderForm extends Component {
 				orderItems,
 				orderTotal
 			};
-
-			console.log(order);
 
 			axios
 				.post(`/api/orders/${this.props.match.params.id}`, order)
@@ -376,6 +389,8 @@ class OrderForm extends Component {
 						grabQty={this.grabQty}
 						total={this.state.orderTotal}
 						loading={this.state.isLoading}
+						toggleOrderItem={this.toggleOrderItem}
+						cancelItemEdit={this.cancelItemEdit}
 					/>
 				</div>
 				<button

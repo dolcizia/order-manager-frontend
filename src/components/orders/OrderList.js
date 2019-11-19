@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -53,12 +54,14 @@ class OrderList extends Component {
 	listOrders = () => {
 		return this.state.orders.map((order) => {
 			return (
-				<Order
-					key={order._id}
-					order={order}
-					id={order._id}
-					delete={this.delete}
-				/>
+				<CSSTransition key={order._id} timeout={500} className="table-item">
+					<Order
+						key={order._id}
+						order={order}
+						id={order._id}
+						delete={this.delete}
+					/>
+				</CSSTransition>
 			);
 		});
 	};
@@ -95,7 +98,11 @@ class OrderList extends Component {
 							<th />
 						</tr>
 					</thead>
-					<tbody>{this.listOrders()}</tbody>
+					<tbody>
+						<TransitionGroup className="table-list" component={null}>
+							{this.listOrders()}
+						</TransitionGroup>
+					</tbody>
 				</table>
 			</div>
 		);

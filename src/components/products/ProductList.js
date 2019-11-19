@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPen, faTimes } from '@fortawesome/free-solid-svg-icons';
 
@@ -47,12 +48,14 @@ export default class ProductList extends Component {
 	listProducts = () => {
 		return this.state.products.map((product) => {
 			return (
-				<Product
-					key={product._id}
-					product={product}
-					id={product._id}
-					delete={this.delete}
-				/>
+				<CSSTransition key={product._id} timeout={500} className="table-item">
+					<Product
+						key={product._id}
+						product={product}
+						id={product._id}
+						delete={this.delete}
+					/>
+				</CSSTransition>
 			);
 		});
 	};
@@ -87,7 +90,11 @@ export default class ProductList extends Component {
 							<th style={{ width: '8%' }} />
 						</tr>
 					</thead>
-					<tbody>{this.listProducts()}</tbody>
+					<tbody>
+						<TransitionGroup className="table-list" component={null}>
+							{this.listProducts()}
+						</TransitionGroup>
+					</tbody>
 				</table>
 			</div>
 		);

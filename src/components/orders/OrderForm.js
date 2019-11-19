@@ -157,10 +157,12 @@ class OrderForm extends Component {
 				price: '',
 				quantity: ''
 			},
-			orderTotal
+			orderTotal,
+			products: this.state.products.filter((product) => product._id !== item)
 		});
 	};
 
+	// On submit order
 	createOrder = () => {
 		if (this.state.orderItems) {
 			const { customer, delivery, orderItems, orderTotal } = this.state;
@@ -186,6 +188,7 @@ class OrderForm extends Component {
 		}
 	};
 
+	// -------- Order Item Logic -------- //
 	removeItem = (id, lineTotal) => {
 		const newTotal = this.state.orderTotal - lineTotal;
 		this.setState({
@@ -194,16 +197,29 @@ class OrderForm extends Component {
 		});
 	};
 
-	updateItem = (id, updatedItem) => {
+	updateItem = (itemToEdit, prevTotal) => {
+		const { orderItem, id, name, price, quantity, lineTotal } = itemToEdit;
+		const newTotal = this.state.orderTotal - prevTotal + lineTotal;
 		const updatedItems = this.state.orderItems.map((item) => {
-			if (item.id === id) {
-				return { ...item, task: updatedItem };
+			if (item._id === orderItem) {
+				return {
+					...item,
+					_id: id,
+					item: {
+						_id: id,
+						name,
+						price
+					},
+					quantity,
+					lineTotal
+				};
 			}
 			return item;
 		});
 
 		this.setState({
-			orderItems: updatedItems
+			orderItems: updatedItems,
+			orderTotal: newTotal
 		});
 	};
 

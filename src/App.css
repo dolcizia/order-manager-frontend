@@ -48,3 +48,19 @@ td svg:hover {
 .table-striped svg:hover {
 	color: #fff;
 }
+
+tr.enter {
+	opacity: 0;
+}
+tr.enter-active {
+	opacity: 1;
+	transition: opacity 500ms ease-in;
+}
+tr.exit {
+	opacity: 1;
+}
+
+tr.exit-active {
+	opacity: 0;
+	transition: all 500ms ease-in-out;
+}

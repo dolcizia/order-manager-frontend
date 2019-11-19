@@ -52,12 +52,14 @@ export default class CustomerList extends Component {
 	listCustomers = () => {
 		return this.state.customers.map((customer) => {
 			return (
-				<Customer
-					key={customer._id}
-					customer={customer}
-					id={customer._id}
-					delete={this.delete}
-				/>
+				<CSSTransition key={customer._id} timeout={500} className="table-item">
+					<Customer
+						key={customer._id}
+						customer={customer}
+						id={customer._id}
+						delete={this.delete}
+					/>
+				</CSSTransition>
 			);
 		});
 	};
@@ -93,7 +95,11 @@ export default class CustomerList extends Component {
 							<th style={{ width: '8%' }} />
 						</tr>
 					</thead>
-					<tbody>{this.listCustomers()}</tbody>
+					<tbody>
+						<TransitionGroup className="table-list" component={null}>
+							{this.listCustomers()}
+						</TransitionGroup>
+					</tbody>
 				</table>
 			</div>
 		);

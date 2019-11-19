@@ -15,10 +15,10 @@ export default class ItemSelect extends Component {
 			);
 		});
 		return (
-			<div className="mr-2">
+			<div className="mr-2 flex-grow-1">
 				<select
 					className="form-control form-control-sm mr-2"
-					value={this.props.current}
+					defaultValue={this.props.current}
 					onChange={(e) =>
 						this.props.onProductChange(e.target[e.target.selectedIndex])}
 				>
